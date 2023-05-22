@@ -31,16 +31,40 @@ mongoose
     return Recipe.deleteMany();
   })
 
+  // ITERATIONS 2 & 3 / CREATE ONE AND MANY DOCUMENTS
   .then(async () => {
-    // Run your code here, after you have insured that the connection was made
+
     try {
+
+      // ITERATION 3 | Insert Recipes from data.json
       await Recipe.insertMany(data);
+
+      // ITERATION 2 | Inset one Single Recipe from 
       await Recipe.create(PearPie);
 
+      // SELF ADDED | Counts Number of Recipes written in Database
+      console.log(await Recipe.countDocuments({}));
+      
       let recipeList = await Recipe.find({});
       for (let oneRecipe of recipeList) {console.log(oneRecipe.title)};
     }
     catch (error) {console.log(error)};
+  })
+
+  // ITERATIONS 4 / UDPATE ONE DOCUMENT
+  .then (async () => {
+
+    try {
+
+      // ITERATION 4 | FIND ONE BY ONE SINGLE FIELD AND UPDATE
+      let updatedRecipe = await Recipe.findOneAndUpdate(
+        {title: "Rigatoni alla Genovese"},
+        {duration: 100},
+        {new: true}
+      );
+      console.log(`Recipe updated ${updatedRecipe} !`);
+    }
+    catch (error) {console.log(error);}
   })
 
   .catch(error => {
