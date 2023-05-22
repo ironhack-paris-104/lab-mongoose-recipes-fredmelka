@@ -31,9 +31,8 @@ mongoose
     return Recipe.deleteMany();
   })
 
-  // ITERATIONS 2 & 3 / CREATE ONE AND MANY DOCUMENTS
+  // ITERATIONS 2 & 3 / CREATE ONE AND MANY DOCUMENTS TO DATABASE
   .then(async () => {
-
     try {
 
       // ITERATION 3 | Insert Recipes from data.json
@@ -51,9 +50,8 @@ mongoose
     catch (error) {console.log(error)};
   })
 
-  // ITERATIONS 4 / UDPATE ONE DOCUMENT
+  // ITERATIONS 4 | UDPATE ONE DOCUMENT FROM DATABASE
   .then (async () => {
-
     try {
 
       // ITERATION 4 | FIND ONE BY ONE SINGLE FIELD AND UPDATE
@@ -67,6 +65,17 @@ mongoose
     catch (error) {console.log(error);}
   })
 
-  .catch(error => {
-    console.error('Error connecting to the database', error);
-  });
+  // ITERATION 5 | DELETE ONE DOCUMENT FROM DATABASE
+  .then (async () => {
+    try {
+
+      let deleteRecipe = await Recipe.deleteOne({title: 'Carrot Cake'});
+      console.log(deleteRecipe);
+    }
+    catch (error) {console.log(error)}
+  })
+
+  .catch(error => {console.error('Error connecting to the database', error);})
+  
+  // ITERATION 6 | DISCONNECTION FROM DATABASE
+  .finally(()=> {mongoose.disconnect(); console.log('disconnected!')});
