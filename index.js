@@ -8,17 +8,17 @@ const data = require('./data');
 
 const MONGODB_URI = 'mongodb://127.0.0.1:27017/recipe-app';
 
-//Creation of a recipe according to the Recipe Schema
+//Creation of a single recipe object following the Recipe Schema
 let PearPie = {
-  _title: 'Tarte aux Poires',
-  _level: 'Easy Peasy',
-  _ingredients: ['Pears', 'Butter', 'Sugar', 'Wheat'],
-  _cuisine: 'French',
-  _dishType: 'dessert',
-  _image: 'https://images.media-allrecipes.com/images/75131.jpg',
-  _duration: 45,
-  _creator: 'Victoria Melka',
-  _created: '01/22/1944'
+  title: 'Tarte aux Poires',
+  level: 'Easy Peasy',
+  ingredients: ['Pears', 'Butter', 'Sugar', 'Wheat'],
+  cuisine: 'French',
+  dishType: 'dessert',
+  image: 'https://images.media-allrecipes.com/images/75131.jpg',
+  duration: 45,
+  creator: 'Victoria Melka',
+  created: '01/22/1944'
 };
 
 // Connection to the database "recipe-app"
@@ -34,7 +34,11 @@ mongoose
   .then(async () => {
     // Run your code here, after you have insured that the connection was made
     try {
+      await Recipe.insertMany(data);
       await Recipe.create(PearPie);
+
+      let recipeList = await Recipe.find({});
+      for (let oneRecipe of recipeList) {console.log(oneRecipe.title)};
     }
     catch (error) {console.log(error)};
   })
